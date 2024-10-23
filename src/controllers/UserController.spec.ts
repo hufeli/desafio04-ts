@@ -8,7 +8,8 @@ describe('UserController', () => {
     const mockDb: User[] = []
     const mockUserService: Partial<UserService> = {
         createUser: jest.fn(),
-        getAllUsers: jest.fn()
+        getAllUsers: jest.fn(),
+        deleteUser: jest.fn()
     }
 
     const userController = new UserController(mockUserService as UserService);
@@ -25,6 +26,18 @@ describe('UserController', () => {
 
         expect(mockResponse.state.status).toBe(201)
         expect(mockResponse.state.json).toMatchObject({ message: 'Usuário criado' })
+    })
+
+    it('Deve deletar um usuário', () => {
+        const mockRequest = {
+            body: {
+                email: 'joana@dio.com'
+            }
+        } as Request
+        userController.deleteUser(mockRequest, mockResponse)
+
+        expect(mockResponse.state.status).toBe(204)
+        expect(mockResponse.state.json).toMatchObject({ message: 'Usuário deletado' })
     })
 
     it('Deve verificar a resposta de erro caso o usuário não informe o name', () => {
