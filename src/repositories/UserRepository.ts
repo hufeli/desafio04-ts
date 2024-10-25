@@ -16,4 +16,11 @@ export class UserRepository {
         }
     })
 
+    getUserByEmailAndPassword = async (email: string, password: string): Promise<User | null> => await this.manager.findOne(User, {
+        where: {
+            email,
+            password
+        }
+    })
+
 }

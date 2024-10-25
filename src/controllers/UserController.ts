@@ -13,7 +13,7 @@ export class UserController {
     createUser = (request: Request, response: Response): Response => {
         const user = request.body
 
-        if (!user.name || !user.email ||!user.password) {
+        if (!user.name || !user.email || !user.password) {
             return response.status(400).json({ message: 'Bad request! todos os campos são obrigatórios' })
         }
 
@@ -31,7 +31,16 @@ export class UserController {
     //     return response.status(204).json({ message: 'Usuário deletado'})
     // }
 
-    getUser = (request: Request, response: Response) => {
-        return response.status(200)
+    getUser = async (request: Request, response: Response) => {
+        const { id_user } = request.params
+
+        const user = await this.userService.getUser(id_user)
+        return response.status(200).json(
+            {
+                id_user: user?.id_user,
+                name: user?.name,
+                email: user?.email
+            }
+        )
     }
 }
